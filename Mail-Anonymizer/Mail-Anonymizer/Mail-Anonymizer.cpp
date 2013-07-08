@@ -6,8 +6,6 @@
 #include <fstream>
 #include <string>
 
-#include <windows.h> 
-
 //using namespace std;
 #define BUFSIZE MAX_PATH;
 
@@ -27,7 +25,7 @@ int main() {
 		std::string line;
 		//std::ifstream myfile ("A:/DEV/swissnexCommunicationAnalysis/Mail-Anonymizer/Mail-Anonymizer/input.mbx");
 		//std::ofstream outfile ("A:/DEV/swissnexCommunicationAnalysis/Mail-Anonymizer/Mail-Anonymizer/output.mbx");
-		std::ifstream myfile (path);
+		std::ifstream myfile(path.c_str());
 
 		std::ofstream outfile (".\\output.mbx");
 		//std::cout << outfile.good() << std::endl;
@@ -50,7 +48,7 @@ int main() {
 		outfile.close();
 		} 
 		else{
-			std::cout << "Bad path" << std::endl;
+			std::cout << "Bad path: " << path << std::endl;
 		}
 	}
 	catch (std::exception& err) {
