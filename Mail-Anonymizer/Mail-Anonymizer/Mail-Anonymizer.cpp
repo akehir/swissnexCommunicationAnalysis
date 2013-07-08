@@ -19,8 +19,6 @@ int main() {
 	std::cout << "Please drag & drop your exported mailbox (*.mbx) here:" << std::endl;
 	std::cin >> path;
 	
-
-	
 	try{
 		std::string line;
 		//std::ifstream myfile ("A:/DEV/swissnexCommunicationAnalysis/Mail-Anonymizer/Mail-Anonymizer/input.mbx");
@@ -37,11 +35,41 @@ int main() {
 				//std::cout << line << std::endl;
 
 				if(line.substr(0, 9).compare("Subject: ") == 0){
-					outfile << line.substr(0, 9) << hash(line.substr(9).c_str()) << std::endl;
+
+
+
+					bool run = 1;
+					// divide line in two variables
+					std::string line_left, line_right;
+					line_left	= line.substr(0, 9);
+					line_right	= line.substr(9);
+
+					while(run){
+						if(line_right.substr(0, 5).compare("Fwd: ") == 0){
+							line_left	+= line_right.substr(0, 5);
+							line_right	=	line_right.substr(5);
+						}
+						else if(
+							line_right.substr(0, 4).compare("RE: ") == 0 
+							|| line_right.substr(0, 4).compare("Re: ") == 0 
+							|| line_right.substr(0, 4).compare("Fw: ") == 0
+							|| line_right.substr(0, 4).compare("FW: ") == 0
+							|| line_right.substr(0, 4).compare("Aw: ") == 0
+							|| line_right.substr(0, 4).compare("AW: ") == 0
+						){
+							line_left	+= line_right.substr(0, 4);
+							line_right	=	line_right.substr(4);
+						}
+						else{
+							run = 0;
+						}
+					}
+
+					// put two lines together again
+					int a= hash(line_right.c_str());
+					line = line_left + std::to_string(a);
 				}
-				else {
-					outfile << line << std::endl;
-				}
+				outfile << line << std::endl;
 			}
 
 		myfile.close();
