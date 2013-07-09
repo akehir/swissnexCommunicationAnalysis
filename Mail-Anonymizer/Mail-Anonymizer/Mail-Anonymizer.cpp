@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <boost/lexical_cast.hpp>
 
 //using namespace std;
 #define BUFSIZE MAX_PATH;
@@ -67,7 +68,8 @@ int main() {
 
 					// put two lines together again
 					int a= hash(line_right.c_str());
-					line = line_left + std::to_string(a);
+					line = line_left +boost::lexical_cast<std::string>(a);
+					//line = line_left + std::to_string(a);
 				}
 				outfile << line << std::endl;
 			}
